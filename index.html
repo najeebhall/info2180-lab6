@@ -1,8 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8"/>
-<script type="text/javascript" src="request.js"></script>
-</head>
-<button> search</button>
+    <body>
+        <input id ="searchValue" type="text" name="search">
+        <button onclick="getDefinition()">Search</button>
+        <button onclick= "getAllDefinitions()">Get All Definitions</button>
+        <div id="result"></div>
+        
+        <script>
+        function getDefinition(){
+            var data = document.getElementById("searchValue").value;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function(){
+                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                    document.getElementById("result").innerHTML= httpRequest.responseText;
+                }
+            };
+            httpRequest.open('GET', "request.php?q="+data,true);
+            httpRequest.send();
+        }
+        function getAllDefinitions(){
+            var data = document.getElementById("searchValue").value;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function(){
+                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                    var response = httpRequest.responseXML;
+                    console.log(response);
+                }
+            };
+            httpRequest.open('GET', "request.php?q=&all=true",true);
+            httpRequest.send();
+        }
+        </script>
+    </body>
 </html>
